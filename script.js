@@ -122,8 +122,6 @@ function runPredict() {
 /* =====================================================================
    Wiring
    ===================================================================== */
-$("build").addEventListener("click", runBuild);
-$("predict").addEventListener("click", runPredict);
 $("anti").addEventListener("click",   () => { $("d1234").value = "180.0"; runBuild(); });
 $("gauche").addEventListener("click", () => { $("d1234").value = "60.0";  runBuild(); });
 
