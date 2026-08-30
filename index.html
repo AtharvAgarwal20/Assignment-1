@@ -23,15 +23,13 @@
     <span id="badge" class="badge rounded-pill text-bg-secondary font-monospace">running self-test&hellip;</span>
   </header>
 
-  <div class="row g-4">
-
-    <!-- ================= panel A: build all four atoms ================= -->
-    <div class="col-lg-6">
-      <div class="card h-100 shadow-sm">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
         <div class="card-body">
 
           <h2 class="h6 text-uppercase text-secondary mb-2">
-            A &mdash; Build all four atoms from internal coordinates
+            Build all four atoms from internal coordinates
           </h2>
           <p class="text-secondary small">
             Atom 1 is the origin, atom 2 needs a bond length, atom 3 adds a bond angle,
@@ -93,70 +91,6 @@
 
           <div id="berr" class="alert alert-danger py-2 px-3 small mt-3 d-none" role="alert"></div>
           <div id="bout"></div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ============ panel B: predict atom 4 from three atoms ============ -->
-    <div class="col-lg-6">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-
-          <h2 class="h6 text-uppercase text-secondary mb-2">
-            B &mdash; Predict atom 4 from three known atoms
-          </h2>
-          <p class="text-secondary small">
-            Enter the Cartesian coordinates of atoms 1, 2 and 3 plus the internal coordinates
-            of atom 4, and atom 4 is placed by the same equation.
-          </p>
-
-          <div class="row g-2 align-items-center mt-4">
-            <div class="col-3"></div>
-            <div class="col-3 text-secondary small">x (&Aring;)</div>
-            <div class="col-3 text-secondary small">y (&Aring;)</div>
-            <div class="col-3 text-secondary small">z (&Aring;)</div>
-
-            <div class="col-3"><label for="ax" class="col-form-label col-form-label-sm">atom 1</label></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="ax" value="0.0000"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="ay" value="0.0000"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="az" value="0.0000"></div>
-
-            <div class="col-3"><label for="bx" class="col-form-label col-form-label-sm">atom 2</label></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="bx" value="1.5260"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="by" value="0.0000"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="bz" value="0.0000"></div>
-
-            <div class="col-3"><label for="cx" class="col-form-label col-form-label-sm">atom 3</label></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="cx" value="2.1163"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="cy" value="1.4076"></div>
-            <div class="col-3"><input type="text" inputmode="decimal" class="form-control form-control-sm" id="cz" value="0.0000"></div>
-          </div>
-
-          <p class="fw-semibold small mb-1 mt-3">Atom 4 &mdash; internal coordinates</p>
-          <div class="row g-2 align-items-center">
-            <div class="col-4 col-sm-3">
-              <label for="pr" class="col-form-label col-form-label-sm">r<sub>34</sub> (&Aring;)</label>
-            </div>
-            <div class="col-8 col-sm-4">
-              <input type="text" inputmode="decimal" class="form-control form-control-sm" id="pr" value="1.5260">
-            </div>
-            <div class="col-4 col-sm-2">
-              <label for="pth" class="col-form-label col-form-label-sm">&theta;<sub>234</sub> (&deg;)</label>
-            </div>
-            <div class="col-8 col-sm-3">
-              <input type="text" inputmode="decimal" class="form-control form-control-sm" id="pth" value="112.7">
-            </div>
-            <div class="col-4 col-sm-3">
-              <label for="pph" class="col-form-label col-form-label-sm">&phi;<sub>1234</sub> (&deg;)</label>
-            </div>
-            <div class="col-8 col-sm-4">
-              <input type="text" inputmode="decimal" class="form-control form-control-sm" id="pph" value="180.0">
-            </div>
-          </div>
-
-          <div id="perr" class="alert alert-danger py-2 px-3 small mt-3 d-none" role="alert"></div>
-          <div id="pout"></div>
 
         </div>
       </div>

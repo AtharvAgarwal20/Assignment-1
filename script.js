@@ -58,7 +58,7 @@ function checkBlock(P, r, theta, phi) {
 
 
 /* =====================================================================
-   Panel A -- build all four atoms from internal coordinates
+   Build all four atoms from internal coordinates
    ===================================================================== */
 function runBuild() {
   try {
@@ -83,43 +83,6 @@ function runBuild() {
 
 
 /* =====================================================================
-   Panel B -- predict atom 4 from three known Cartesian atoms
-   ===================================================================== */
-function runPredict() {
-  try {
-    const p1 = [num("ax", "atom 1 x"), num("ay", "atom 1 y"), num("az", "atom 1 z")];
-    const p2 = [num("bx", "atom 2 x"), num("by", "atom 2 y"), num("bz", "atom 2 z")];
-    const p3 = [num("cx", "atom 3 x"), num("cy", "atom 3 y"), num("cz", "atom 3 z")];
-
-    const r     = num("pr",  "r34");
-    const theta = num("pth", "theta234");
-    const phi   = num("pph", "phi1234");
-
-    if (r <= 0) throw "the bond length must be positive";
-    if (distOf(p1, p2) < 1e-6 || distOf(p2, p3) < 1e-6)
-      throw "atoms 1, 2 and 3 must be at distinct positions";
-
-    const P = [p1, p2, p3, placeAtom(p1, p2, p3, r, theta, phi)];
-
-    // With atoms 1-3 in a straight line there is no a-b-c plane to measure the
-    // torsion from, so atom 4's rotation about the 2-3 axis is arbitrary.
-    const collinear = len(cross(sub(p2, p1), sub(p3, p2))) < 1e-8;
-    const warning = collinear
-      ? '<p class="text-secondary small mt-3 mb-0">Atoms 1, 2 and 3 are collinear, so the ' +
-        "torsion plane is undefined. Atom 4 still has the requested bond length and bond " +
-        "angle, but its rotation about the 2–3 axis is arbitrary.</p>"
-      : "";
-
-    setError("perr", "");
-    $("pout").innerHTML = xyzTable(P) + checkBlock(P, r, theta, phi) + warning;
-  } catch (e) {
-    setError("perr", String(e));
-    $("pout").innerHTML = "";
-  }
-}
-
-
-/* =====================================================================
    Wiring
    ===================================================================== */
 $("anti").addEventListener("click",   () => { $("d1234").value = "180.0"; runBuild(); });
@@ -127,8 +90,6 @@ $("gauche").addEventListener("click", () => { $("d1234").value = "60.0";  runBui
 
 ["r12", "r23", "a123", "r34", "a234", "d1234"]
   .forEach(id => $(id).addEventListener("input", runBuild));
-["ax", "ay", "az", "bx", "by", "bz", "cx", "cy", "cz", "pr", "pth", "pph"]
-  .forEach(id => $(id).addEventListener("input", runPredict));
 
 
 /* =====================================================================
@@ -236,5 +197,4 @@ function selfTest() {
 
 /* boot */
 runBuild();
-runPredict();
 selfTest();
