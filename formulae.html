@@ -1,0 +1,124 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+@page { size: A4; margin: 20mm 22mm; }
+body { font: 11pt/1.5 "Times New Roman", Times, Georgia, serif; color:#111; }
+h1 { font-size: 15pt; margin:0 0 2mm; }
+h2 { font-size: 11.5pt; margin:7mm 0 2.5mm; padding-bottom:1mm;
+     border-bottom:0.6pt solid #999; letter-spacing:.03em; text-transform:uppercase; }
+.eq { margin: 3.5mm 0 3.5mm 8mm; }
+.eq .lbl { display:inline-block; width:22mm; font-style:normal; color:#444; }
+i { font-style: italic; }
+sub { font-size: 72%; }
+.vec td { padding: 0.4mm 2mm; text-align:center; }
+.brk { font-size: 30pt; font-weight: 300; line-height: 0.9; padding:0 0.5mm; }
+table.vars { border-collapse: collapse; width:100%; margin-top:2mm; }
+table.vars th { text-align:left; font-size:9pt; text-transform:uppercase; letter-spacing:.04em;
+                color:#444; border-bottom:0.6pt solid #999; padding:1.4mm 2mm 1.4mm 0; }
+table.vars tr { page-break-inside: avoid; }
+table.vars td { vertical-align:top; padding:1.5mm 2mm 1.5mm 0; border-bottom:0.3pt solid #ddd; }
+table.vars td:first-child { width:24mm; white-space:nowrap; }
+table.vars td:last-child  { width:20mm; color:#444; }
+</style></head><body>
+
+<h1>Conversion of Internal Coordinates to Cartesian Coordinates</h1>
+
+<h2>Formulae</h2>
+
+<div class="eq"><span class="lbl">Atom 1</span>
+  <i>p</i><sub>1</sub> = (0,&nbsp; 0,&nbsp; 0)</div>
+
+<div class="eq"><span class="lbl">Atom 2</span>
+  <i>p</i><sub>2</sub> = (<i>r</i><sub>12</sub>,&nbsp; 0,&nbsp; 0)</div>
+
+<div class="eq"><span class="lbl">Atom 3</span>
+  <i>p</i><sub>3</sub> = (<i>r</i><sub>12</sub> &minus; <i>r</i><sub>23</sub> cos&thinsp;<i>&theta;</i><sub>123</sub>,&nbsp;
+  <i>r</i><sub>23</sub> sin&thinsp;<i>&theta;</i><sub>123</sub>,&nbsp; 0)</div>
+
+<div class="eq"><span class="lbl">Atom 4</span>
+  <table style="display:inline-table;vertical-align:top"><tr><td style="padding:0 0 1.5mm 0">
+  <i>e</i><sub>1</sub> = (<i>p</i><sub>3</sub> &minus; <i>p</i><sub>2</sub>) / |<i>p</i><sub>3</sub> &minus; <i>p</i><sub>2</sub>|
+  </td></tr><tr><td style="padding:0 0 1.5mm 0">
+  <i>e</i><sub>3</sub> = ((<i>p</i><sub>2</sub> &minus; <i>p</i><sub>1</sub>) &times; <i>e</i><sub>1</sub>)
+       / |(<i>p</i><sub>2</sub> &minus; <i>p</i><sub>1</sub>) &times; <i>e</i><sub>1</sub>|
+  </td></tr><tr><td style="padding:0 0 1.5mm 0">
+  <i>e</i><sub>2</sub> = <i>e</i><sub>3</sub> &times; <i>e</i><sub>1</sub>
+  </td></tr><tr><td style="padding:0 0 2.5mm 0">
+  <b>M</b> = [ <i>e</i><sub>1</sub> &nbsp; <i>e</i><sub>2</sub> &nbsp; <i>e</i><sub>3</sub> ]
+  </td></tr></table></div>
+
+<div style="margin-left:30mm">
+<table class="vec"><tr>
+  <td><i>p</i><sub>4</sub> &nbsp;=&nbsp; <i>p</i><sub>3</sub> &nbsp;+&nbsp; <b>M</b> &nbsp;&middot;&nbsp;</td>
+  <td class="brk">[</td>
+  <td>
+    <table class="vec">
+      <tr><td>&minus;<i>r</i><sub>34</sub> cos&thinsp;<i>&theta;</i><sub>234</sub></td></tr>
+      <tr><td><i>r</i><sub>34</sub> sin&thinsp;<i>&theta;</i><sub>234</sub> cos&thinsp;<i>&phi;</i><sub>1234</sub></td></tr>
+      <tr><td><i>r</i><sub>34</sub> sin&thinsp;<i>&theta;</i><sub>234</sub> sin&thinsp;<i>&phi;</i><sub>1234</sub></td></tr>
+    </table>
+  </td>
+  <td class="brk">]</td>
+</tr></table>
+</div>
+
+<h2>Variables</h2>
+
+<table class="vars">
+<tr><th>Symbol</th><th>Meaning</th><th>Units</th></tr>
+
+<tr><td><i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, <i>p</i><sub>3</sub>, <i>p</i><sub>4</sub></td>
+    <td>Cartesian position vectors of atoms 1 to 4. Atom 1 has no internal coordinates given, so it
+        is taken as the origin, and the molecule&rsquo;s overall position and orientation are arbitrary.</td>
+    <td>&Aring;</td></tr>
+
+<tr><td><i>r</i><sub>12</sub></td><td>Bond length between atoms 1 and 2.</td><td>&Aring;</td></tr>
+<tr><td><i>r</i><sub>23</sub></td><td>Bond length between atoms 2 and 3.</td><td>&Aring;</td></tr>
+<tr><td><i>r</i><sub>34</sub></td><td>Bond length between atoms 3 and 4.</td><td>&Aring;</td></tr>
+
+<tr><td><i>&theta;</i><sub>123</sub></td>
+    <td>Bond angle at atom 2, between the bonds 2&ndash;1 and 2&ndash;3. It is the interior angle at
+        atom 2, which is why cos&thinsp;<i>&theta;</i><sub>123</sub> enters with a minus sign.</td>
+    <td>degrees</td></tr>
+
+<tr><td><i>&theta;</i><sub>234</sub></td>
+    <td>Bond angle at atom 3, between the bonds 3&ndash;2 and 3&ndash;4.</td>
+    <td>degrees</td></tr>
+
+<tr><td><i>&phi;</i><sub>1234</sub></td>
+    <td>Torsion (dihedral) angle about the 2&ndash;3 bond: the angle between the plane through atoms
+        1, 2, 3 and the plane through atoms 2, 3, 4. <i>&phi;</i> = 0 is the eclipsed (<i>cis</i>)
+        arrangement; positive values rotate clockwise when looking from atom 2 toward atom 3.</td>
+    <td>degrees</td></tr>
+
+<tr><td><i>e</i><sub>1</sub></td>
+    <td>Unit vector along the 2&rarr;3 bond, i.e. the bond being extended. Local <i>x</i> axis.</td>
+    <td>&mdash;</td></tr>
+
+<tr><td><i>e</i><sub>3</sub></td>
+    <td>Unit vector normal to the plane through atoms 1, 2, 3. This is the axis that
+        <i>&phi;</i><sub>1234</sub> rotates about. Local <i>z</i> axis.</td>
+    <td>&mdash;</td></tr>
+
+<tr><td><i>e</i><sub>2</sub></td>
+    <td>Unit vector completing the right-handed set, <i>e</i><sub>3</sub> &times; <i>e</i><sub>1</sub>.
+        Local <i>y</i> axis.</td>
+    <td>&mdash;</td></tr>
+
+<tr><td><b>M</b></td>
+    <td>3&times;3 matrix holding <i>e</i><sub>1</sub>, <i>e</i><sub>2</sub>, <i>e</i><sub>3</sub> as its
+        <i>columns</i>. Because <i>e</i><sub>1</sub> &times; <i>e</i><sub>2</sub> = <i>e</i><sub>3</sub>
+        it is a pure rotation, so it carries the bracketed vector from the local frame into world
+        coordinates without changing its length.</td>
+    <td>&mdash;</td></tr>
+
+<tr><td>&times;</td><td>Vector cross product.</td><td>&mdash;</td></tr>
+<tr><td>| <i>v</i> |</td><td>Euclidean length of the vector <i>v</i>, used to normalise to unit length.</td><td>&mdash;</td></tr>
+
+<tr><td>[ &hellip; ]</td>
+    <td>The position of atom 4 relative to atom 3, written in spherical polar form in the local
+        <i>e</i><sub>1</sub><i>e</i><sub>2</sub><i>e</i><sub>3</sub> frame. Its length is
+        <i>r</i><sub>34</sub>.</td>
+    <td>&Aring;</td></tr>
+</table>
+
+</body></html>
