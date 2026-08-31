@@ -115,7 +115,7 @@ $("gauche").addEventListener("click", () => {
 );
 
 /* =====================================================================
-   Self-test -- runs on load, result shown in the header badge.
+   Self-test -- runs on load, result logged to the console.
    ===================================================================== */
 function selfTest() {
   const results = [];
@@ -212,7 +212,6 @@ function selfTest() {
   });
 
   const passed = results.filter((x) => x[1] === true).length;
-  const allOk = passed === results.length;
 
   const report = results
     .map((x) =>
@@ -220,14 +219,9 @@ function selfTest() {
     )
     .join("\n");
 
-  const badge = $("badge");
-  badge.className =
-    "badge rounded-pill font-monospace " +
-    (allOk ? "text-bg-success" : "text-bg-danger");
-  badge.textContent =
-    (allOk ? "✓ " : "✗ ") + "self-test " + passed + "/" + results.length;
-  badge.title = report;
-  console.log(report);
+  console.log(
+    "self-test " + passed + "/" + results.length + "\n" + report,
+  );
 
   return results;
 }
