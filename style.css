@@ -6,3 +6,18 @@
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+
+/* Vectors and matrices are bold italic. MathML Core italicises a single-letter
+   <mi> by substituting a Unicode italic character (text-transform: math-auto),
+   which font-weight cannot touch -- so those <mi> carry mathvariant="normal" to
+   switch the substitution off, and the styling is done here instead. */
+math .vec {
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* MathML defaults to the surrounding text size, which is small for a formula
+   that is the point of the page. */
+math {
+  font-size: 1.1rem;
+}

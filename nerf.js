@@ -13,15 +13,17 @@
 /* ---------------------------------------------------------------------
    Vector helpers. A vector is a plain array [x, y, z].
    --------------------------------------------------------------------- */
-const sub   = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-const add   = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
-const scl   = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
-const dot   = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const cross = (a, b) => [a[1] * b[2] - a[2] * b[1],
-                         a[2] * b[0] - a[0] * b[2],
-                         a[0] * b[1] - a[1] * b[0]];
-const len   = a => Math.hypot(a[0], a[1], a[2]);
-const unit  = a => scl(a, 1 / len(a));
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const scl = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const cross = (a, b) => [
+  a[1] * b[2] - a[2] * b[1],
+  a[2] * b[0] - a[0] * b[2],
+  a[0] * b[1] - a[1] * b[0],
+];
+const len = (a) => Math.hypot(a[0], a[1], a[2]);
+const unit = (a) => scl(a, 1 / len(a));
 
 const D2R = Math.PI / 180;
 const R2D = 180 / Math.PI;
@@ -30,10 +32,10 @@ const R2D = 180 / Math.PI;
    Only used by the rigid-body self-test. */
 const rodrigues = (v, k, ang) => {
   k = unit(k);
-  const c = Math.cos(ang), s = Math.sin(ang);
+  const c = Math.cos(ang),
+    s = Math.sin(ang);
   return add(add(scl(v, c), scl(cross(k, v), s)), scl(k, dot(k, v) * (1 - c)));
 };
-
 
 /* =====================================================================
    Forward: internal coordinates -> Cartesian
@@ -84,9 +86,16 @@ function placeAtom(pa, pb, pc, r, thetaDeg, phiDeg) {
   const th = thetaDeg * D2R;
   const ph = phiDeg * D2R;
 
-  return add(pc, add(scl(e1, -r * Math.cos(th)),
-                 add(scl(e2,  r * Math.sin(th) * Math.cos(ph)),
-                     scl(e3,  r * Math.sin(th) * Math.sin(ph)))));
+  return add(
+    pc,
+    add(
+      scl(e1, -r * Math.cos(th)),
+      add(
+        scl(e2, r * Math.sin(th) * Math.cos(ph)),
+        scl(e3, r * Math.sin(th) * Math.sin(ph)),
+      ),
+    ),
+  );
 }
 
 /**
@@ -96,21 +105,21 @@ function placeAtom(pa, pb, pc, r, thetaDeg, phiDeg) {
  * Reduces to the closed form p3 = (r12 - r cos0, r sin0, 0) in the canonical
  * case where atom 1 is at the origin and atom 2 lies on +x.
  */
-const placeThird = (pb, pc, r, thetaDeg) => placeAtom(pb, pb, pc, r, thetaDeg, 0);
+const placeThird = (pb, pc, r, thetaDeg) =>
+  placeAtom(pb, pb, pc, r, thetaDeg, 0);
 
 /**
  * The whole four-atom conversion.
  * @returns {Array<number[]>} [p1, p2, p3, p4]
  */
 function buildFour(r12, r23, a123, r34, a234, d1234) {
-  const p1 = [0, 0, 0];                                 // no data given: the origin
-  const p2 = [r12, 0, 0];                               // bond length only: lay it on +x
-  const p3 = placeThird(p1, p2, r23, a123);             // + bond angle: choose the xy-plane
-  const p4 = placeAtom(p1, p2, p3, r34, a234, d1234);   // + torsion: the general case
+  const p1 = [0, 0, 0]; // no data given: the origin
+  const p2 = [r12, 0, 0]; // bond length only: lay it on +x
+  const p3 = placeThird(p1, p2, r23, a123); // + bond angle: choose the xy-plane
+  const p4 = placeAtom(p1, p2, p3, r34, a234, d1234); // + torsion: the general case
 
   return [p1, p2, p3, p4];
 }
-
 
 /* =====================================================================
    Inverse: Cartesian -> internal coordinates.
@@ -122,7 +131,8 @@ const distOf = (p, q) => len(sub(p, q));
 
 /** Bond angle at q, i.e. the angle p-q-s, in degrees. */
 const angOf = (p, q, s) =>
-  Math.acos(Math.min(1, Math.max(-1, dot(unit(sub(p, q)), unit(sub(s, q)))))) * R2D;
+  Math.acos(Math.min(1, Math.max(-1, dot(unit(sub(p, q)), unit(sub(s, q)))))) *
+  R2D;
 
 /**
  * Signed torsion angle a-b-c-i, in degrees.
@@ -137,10 +147,10 @@ function dihOf(pa, pb, pc, pi) {
 }
 
 /** Smallest absolute difference between two angles, in degrees. */
-const angDiff = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
+const angDiff = (a, b) => Math.abs(((((a - b) % 360) + 540) % 360) - 180);
 
 /** Fold an angle into (-180, 180], matching what atan2 reports. */
-const wrap180 = a => {
-  const n = ((a % 360) + 540) % 360 - 180;
+const wrap180 = (a) => {
+  const n = (((a % 360) + 540) % 360) - 180;
   return n === -180 ? 180 : n;
 };
